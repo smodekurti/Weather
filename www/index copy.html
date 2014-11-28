@@ -36,7 +36,7 @@
             padding: 7px 7px;
             overflow: scroll;
             min-height: 40px;
-            max-height: 450px;;
+            max-height: 400px;;
             border-radius: .50em;
         }
         .bootcards-summary .panel-body    
@@ -86,55 +86,54 @@
             color: #0A0909  ;
             border-radius: .75em;
         }
-            
-        .bootcards-summary .panel-body {
-                padding: 1px 15px;
-        }
 
     </style>
     
 </head>
 
 <body style="overflow:hidden">
-   <div class="container-fluid" >
+   <div class="container" >
    <div class="row" ng-controller="WeatherController">
        <div class="col-lg-12">
         <div class=" panel panel-default bootcards-summary">    
            <form role="form" ng-submit="getWeather()">
-                <div class="input">
-                      <input type="text" class="form-control" ng-model="zipCode" focus="true" placeholder="Zip Code or City" >
+                <div class="input-group">
+                      <input type="text" class="form-control" ng-model="zipCode" placeholder="Zip Code/City">
+                      <span class="input-group-btn">
+                        <button class="btn btn-success" type="button">Go!</button>
+                      </span>
                 </div>
-               <br/> 
-               <div class="panel-heading heading" ng-if="geoLocation.citylocation.length > 0">
-                    <h2 class="panel-title text-center " >{{geoLocation.citylocation}}</h2>
+                <div class="panel-heading heading" ng-if="citylocation.length > 0">
+                    <h2 class="panel-title text-center " >{{citylocation}}</h2>
                 </div>
             </form>
         </div>
        </div>
-       <div class="col-lg-12" >
-          <div class="panel panel-default bootcards-summary" ng-show='geoLocation.status'>
+       <div class="col-lg-12" ng-if="citylocation.length > 0">
+          
+            <div class="panel panel-default bootcards-summary " >
+                 
+               
+                
                 <div class="panel-body bootcards-cards wrapper" >
                     
-                    <div class="alert  alert-success text-center"   ng-if="geoLocation.citylocation.length > 0">
-                        {{ WeatherResult.CurrentWeather.weekSummary }}
+                    <div class="alert  alert-success text-center"   ng-if="citylocation.length > 0">
+                        {{ CurrentWeather.weekSummary }}
                     </div>
-                    <div class="alert  alert-danger text-center"   ng-if='geoLocation.status === "Fail"'>
-                        ZipCode/City Not Found !!!!
-                    </div>
-                    <div class="row" ng-if="geoLocation.citylocation.length > 0" >
+                    <div class="row" ng-if="citylocation.length > 0" >
                         <div class="col-lg-12 col-md-12 col-xs-12">
                             <div class="bootcards-summary-item ease-transition">
                                 <h3>Current</h2> 
-                                <skycon icon="WeatherResult.CurrentWeather.icon"  size="WeatherResult.CurrentWeather.iconSize"></skycon>
-                                <h4 class="#">{{WeatherResult.CurrentWeather.summary}}</h4> 
-                                
-                                 <h4 class="#">{{WeatherResult.CurrentWeather.currentTemperature}}&deg;</h4> 
+                                <skycon icon="CurrentWeather.icon"  size="CurrentWeather.iconSize"></skycon>
+                                <h4 class="#">{{CurrentWeather.summary}}</h4> 
+                                <br/>
+                                 <h4 class="#">{{CurrentWeather.currentTemperature}}&deg;</h4> 
                             </div>
                         </div> 
                     </div>
-                    <div class="row" ng-if="geoLocation.citylocation.length > 0" >
+                    <div class="row" ng-if="citylocation.length > 0" >
                         
-                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-12" ng-repeat="dailyweather in WeatherResult.DailyWeatherArray">
+                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-12" ng-repeat="dailyweather in DailyWeatherArray">
                             <div class="bootcards-summary-item ease-transition">
                                 <h3>{{ dailyweather.DayName }}</h2> 
                                 <skycon icon="dailyweather.icon"  size="dailyweather.iconSize"></skycon>
