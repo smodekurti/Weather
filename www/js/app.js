@@ -6,7 +6,9 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
     $scope.zipCode = '';
     $scope.WeatherResult={};
     $scope.geoLocation = {};
-    
+    $scope.keypressCallback = function($event) {
+        $event.target.blur();
+    };
     $scope.getWeather=function(){
         
         
