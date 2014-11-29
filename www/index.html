@@ -102,7 +102,7 @@
         <div class=" panel panel-default bootcards-summary">    
            <form role="form" ng-submit="getWeather()">
                 <div class="input">
-                      <input type="text" class="form-control" ng-model="zipCode" focus="true" placeholder="Zip Code or City" >
+                      <input type="text" class="form-control" ng-model="zipCode" focus="true" placeholder="Zip Code or City" ui-keypress="{13:'keypressCallback($event)'}">
                 </div>
                <br/> 
                <div class="panel-heading heading" ng-if="geoLocation.citylocation.length > 0">
