@@ -24,7 +24,7 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
                 $scope.geoLocation.citylocation = "Incorrect ZipCode";
                 $scope.geoLocation.status = true;
                 $scope.WeatherResult = {};
-                $sscope.WeatherResult.status = false;
+                $scope.WeatherResult.status = false;
                 
             }
          });
