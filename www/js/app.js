@@ -1,23 +1,13 @@
-var app =angular.module('weatherApp',['angular-skycons','mgcrea.ngStrap']);
+var app =angular.module('weatherApp',['angular-skycons','mgcrea.ngStrap','ngAnimate']);
 
 app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherService',function($scope,$log,$http,$filter,WeatherService){
     
-
-    $scope.zipCode = '';
-    $scope.WeatherResult={};
-    $scope.geoLocation = {};
+   
+   
     
     $scope.getWeather=function(){
-        
-        $scope.keypressCallback = function($event) {
-        $event.target.blur();
-        };
-        
-        $scope.WeatherResult={};
-        $scope.geoLocation = {};      
-       
         var geoLocation = WeatherService.findGeoLocation($scope.zipCode);
-        
+        $scope.geoLocation = geoLocation;
             
          geoLocation.then(function (geoLocation){
             $scope.geoLocation = geoLocation 
@@ -25,11 +15,17 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
                var weatherDetails = WeatherService.findWeatherByGeo(geoLocation.latitude,geoLocation.longitude);    
                weatherDetails
                 .then(function(WeatherResult){
+                     $scope.WeatherResult = '';
                     $scope.WeatherResult = WeatherResult;
+                    $scope.headline = '';
+                    $scope.headline = WeatherResult.CurrentWeather.weekSummary;
                 });
             }
             else{
                 $log.error("Incorrect ZipCode");
+                $scope.geoLocation='';
+                $scope.headline = "Incorrect ZipCode";
+                $scope.WeatherResult = {};
             }
          });
             
@@ -60,6 +56,7 @@ app.directive('focus',function($timeout) {
 
 app.directive('handlePhoneSubmit', function () {
     return function (scope, element, attr) {
+        console.log('Test');
         var textFields = $(element).children('input[type=text]');
          
         $(element).submit(function() {
