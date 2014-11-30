@@ -15,9 +15,9 @@ app.run([
       '         <div class="row">' +
       '            <div class="col-xs-12 col-sm-12 col-lg-12">' +
       '                 <div><h1 ng-bind="title"></h1></div>' +
-      '                 <div style="text-align: center; display:auto;"><img src = "../images/logo.png" class="img-responsive" height="142" width="142"></img></div>' +                
-      '                 <div><p class="lead" ng-bind="message"></p></div>' +
-      '                 <img src = "../images/powered-by-google-on-non-white2.png"></img>' +
+      '                 <div style="text-align: center; display:auto;"><img src = "logo.png" class="img-responsive" height="142" width="142"></img></div>' +                
+      '                 <div><p class="lead" ng-bind="message"></p></div>' +    
+      '                 <img src = "powered-by-google-on-non-white2.png"></img>' +
       '             </div>' +
       '         </div>'+
       '     </div>' +
