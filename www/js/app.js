@@ -56,7 +56,7 @@ app.directive('focus',function($timeout) {
 
 app.directive('handlePhoneSubmit', function () {
     return function (scope, element, attr) {
-        console.log('Test');
+        console.log('Testing Blur');
         var textFields = $(element).children('input[type=text]');
          
         $(element).submit(function() {
