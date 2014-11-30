@@ -57,7 +57,8 @@ app.directive('focus',function($timeout) {
 app.directive('handlePhoneSubmit', function () {
     return function (scope, element, attr) {
 
-        var textFields = $(element).children.children('input[type=text]');
+        var textFields = $(element).children('input[type=text]');
+        console.log(textFields);
 
         $(element).submit(function() {
             console.log('form was submitted');
