@@ -1,17 +1,47 @@
 var app =angular.module('weatherApp',['angular-skycons','mgcrea.ngStrap','ngAnimate']);
 
-app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherService',function($scope,$log,$http,$filter,WeatherService){
+
+
+app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherService','$timeout', function($scope,$log,$http,$filter,WeatherService,$timeout){
     
-  
+  if (navigator.geolocation) {
+      $scope.startPinning = true;
+      navigator.geolocation.getCurrentPosition(function(position){
+        $scope.$apply(function(){
+                        $scope.position = position; 
+                        var geoLocation = WeatherService.findGeoLocationByLatLong($scope.position.coords.latitude,$scope.position.coords.longitude);
+                        //$scope.geoLocation = geoLocation;
+                        geoLocation.then(function (geoLocation){
+                            $scope.geoLocation = geoLocation; 
+                            var result = findForecastByLatLong(geoLocation);
+                        });
+                    });
+        },
+        function(){
+          $scope.$apply(function(){
+            $scope.startPinning = false;
+            
+          });
+      });
+      
+  }
+
+    
     
     $scope.getWeather=function(){
-        
-        var geoLocation = WeatherService.findGeoLocation($scope.zipCode);
-        $scope.geoLocation = geoLocation;
+        $scope.startPinning = false;
+        var geoLocation = WeatherService.findGeoLocationByZip($scope.zipCode);
+        //$scope.geoLocation = geoLocation;
             
          geoLocation.then(function (geoLocation){
-            $scope.geoLocation = geoLocation 
-            if(geoLocation.status){
+            $scope.geoLocation = geoLocation; 
+            findForecastByLatLong(geoLocation);
+         });
+            
+    }
+    
+    function findForecastByLatLong(geoLocation){
+        if(geoLocation.status){
                var weatherDetails = WeatherService.findWeatherByGeo(geoLocation.latitude,geoLocation.longitude);    
                weatherDetails
                 .then(function(WeatherResult){
@@ -24,12 +54,14 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
                 $scope.geoLocation.citylocation = "Incorrect ZipCode";
                 $scope.geoLocation.status = true;
                 $scope.WeatherResult = {};
-                $sscope.WeatherResult.status = false;
+                $scope.WeatherResult.status = false;
                 
             }
-         });
-            
+        $scope.startPinning = false; 
+        return true;
+        
     }
+    
                                    
 }]);
 
@@ -49,7 +81,7 @@ app.directive('focus',function($timeout) {
                 }
             });
         }
-  };
+  };    
 
 });
 

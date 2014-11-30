@@ -1,7 +1,8 @@
 var app = angular.module('weatherApp');
 app.factory('WeatherService',['$http','$q','$log',function($http,$q,$log){
    
-    var googleURL = "http://maps.google.com/maps/api/geocode/json?address=";
+    var googleAddressURL = "http://maps.google.com/maps/api/geocode/json?address=";
+    var googleLatLongURL = "http://maps.googleapis.com/maps/api/geocode/json?sensor=true&latlng=";
     var forecastURLBegin = "https://api.forecast.io/forecast/88c86c20c4bbc82064e39c376f56a295/";
     var forecastURLEnd = "?callback=JSON_CALLBACK";
    
@@ -19,16 +20,25 @@ app.factory('WeatherService',['$http','$q','$log',function($http,$q,$log){
     weekday[6] = "Saturday";
     
     return ({
-        findGeoLocation : findGeoLocation,
+        findGeoLocationByZip : findGeoLocationByZip,
+        findGeoLocationByLatLong : findGeoLocationByLatLong,
         findWeatherByGeo: findWeatherByGeo
     });
     
 
 
-function findGeoLocation(zipCode){
-    var request = $http.get(googleURL+zipCode,{});
+function findGeoLocationByZip(zipCode){
+    var request = $http.get(googleAddressURL+zipCode,{});
         
     return (request.then(handleGeoSuccess,handleGeoError));
+}
+    
+function findGeoLocationByLatLong(latitude, longitude){
+    var request = $http.get(googleLatLongURL+latitude+","+longitude,{});
+        
+    return (request.then(handleGeoSuccess,handleGeoError));
+    
+    
 }
 
     
@@ -85,7 +95,8 @@ function handleWeatherCallSuccess(response){
 
     
 
-function handleWeatherCallError(response){   
+function handleWeatherCallError(response){  
+    var WeatherResult = {};
     if (
         ! angular.isObject( response.data ) ||
         ! response.data.message
@@ -103,6 +114,7 @@ function handleWeatherCallError(response){
     
     
 function handleGeoError(response){
+    var geoLocation = {};
     if (
         ! angular.isObject( response.data ) ||
         ! response.data.message
@@ -120,7 +132,7 @@ function handleGeoError(response){
 
 function handleGeoSuccess(response){
    var result = response.data;
-
+   var geoLocation = {};
     if(result.results.length >0){
         geoLocation.status = true;
         geoLocation.latitude = result.results[0].geometry.location.lat;
