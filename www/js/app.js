@@ -24,7 +24,7 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
                 $scope.geoLocation.citylocation = "Incorrect ZipCode";
                 $scope.geoLocation.status = true;
                 $scope.WeatherResult = {};
-                $scope.WeatherResult.status = false;
+                $sscope.WeatherResult.status = false;
                 
             }
          });
@@ -57,7 +57,7 @@ app.directive('focus',function($timeout) {
 app.directive('handlePhoneSubmit', function () {
     return function (scope, element, attr) {
 
-        var textFields = $(element).children('input[type=text]');
+        var textFields = $(element).children('div').children('input[type=text]');
         console.log(textFields);
 
         $(element).submit(function() {
