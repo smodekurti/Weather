@@ -1,6 +1,44 @@
-var app =angular.module('weatherApp',['angular-skycons','mgcrea.ngStrap','ngAnimate']);
+var app =angular.module('weatherApp',['angular-skycons','mgcrea.ngStrap','ngAnimate','ui.bootstrap']);
 
+app.run([
+  '$templateCache',
+  function ($templateCache) {
+    $templateCache.put('splash/index.html',
+      '<section class="splash" ng-class="{\'splash-open\': animate}" ng-style="{\'z-index\': 1000, display: \'block\'}" ng-click="close($event)">' +
+      '  <div class="splash-inner" ng-transclude></div>' +
+      '</section>'
+    );
+      
+    $templateCache.put('splash/content.html',
+      '  <div class="splash-content text-center">' +
+      '     <div class="container">' +
+      '         <div class="row">' +
+      '            <div class="col-xs-12 col-sm-12 col-lg-12">' +
+      '                 <div><h1 ng-bind="title"></h1></div>' +
+      '                 <div style="text-align: center; display:auto;"><img src = "../images/logo.png" class="img-responsive" height="142" width="142"></img></div>' +                
+      '                 <div><p class="lead" ng-bind="message"></p></div>' +
+      '                 <img src = "../images/powered-by-google-on-non-white2.png"></img>' +
+      '             </div>' +
+      '         </div>'+
+      '     </div>' +
+      '   </div>'
+    );
+  }
+]);
 
+app.controller('MainCtrl', ['$splash', '$timeout','$modalStack',function ($splash,$timeout,$modalStack) {
+  $timeout(function(){
+      console.log("Timeout Invoked");
+      $modalStack. dismissAll();
+  }, 5000);
+  this.openSplash = function () {
+    $splash.open({
+      title: 'Quick Weather',
+      message: "Weather in a Blink !!!"
+    });
+    
+  };
+}]);
 
 app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherService','$timeout', function($scope,$log,$http,$filter,WeatherService,$timeout){
     
@@ -99,6 +137,28 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
                                    
 }]);
 
+
+app.service('$splash',[
+  '$modal',
+  '$rootScope',
+  function($modal, $rootScope) {
+    return {
+      open: function (attrs, opts) {
+        // Create a new scope so we can pass custom
+        // variables into the splash modal
+        var scope = $rootScope.$new();
+        angular.extend(scope, attrs);
+        opts = angular.extend(opts || {}, {
+          backdrop: false,
+          scope: scope,
+          templateUrl: 'splash/content.html',
+          windowTemplateUrl: 'splash/index.html'
+        });
+        return $modal.open(opts);
+      }
+    };
+  }
+]);
 
 // ng-directive to put focus on a field
 app.directive('focus',function($timeout) {
@@ -279,3 +339,8 @@ app.directive('ngAutocomplete', function() {
       }
     };
   });
+
+
+
+
+
