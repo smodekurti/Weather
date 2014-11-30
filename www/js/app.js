@@ -56,14 +56,9 @@ app.directive('focus',function($timeout) {
 
 app.directive('handlePhoneSubmit', function () {
     return function (scope, element, attr) {
-<<<<<<< Updated upstream
-        console.log('Testing Blur');
-        var textFields = $(element).children('input[type=text]');
-=======
-        console.log('Test');
+
         var textFields = $(element).children.children('input[type=text]');
->>>>>>> Stashed changes
-         
+
         $(element).submit(function() {
             console.log('form was submitted');
             textFields.blur();
