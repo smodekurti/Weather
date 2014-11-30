@@ -4,15 +4,42 @@ var app =angular.module('weatherApp',['angular-skycons','mgcrea.ngStrap','ngAnim
 
 app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherService','$timeout', function($scope,$log,$http,$filter,WeatherService,$timeout){
     
+    $scope.result1 = '';
+    $scope.options1 = null;
+    $scope.details1 = '';
+
+    $scope.modd
+
+    $scope.result2 = '';
+    $scope.options2 = {
+      types: '(cities)'
+    };    $scope.details2 = '';
+    
+    
+    
+    $scope.result3 = '';
+    $scope.options3 = {
+      country: 'gb',
+      types: 'establishment'
+    };
+    $scope.details3 = '';
+    $scope.geoLocation = {status : 'false',
+                         latitude: '',
+                         longitude: '',
+                         citylocation : ''};
+   
+   
+  
   if (navigator.geolocation) {
       $scope.startPinning = true;
       navigator.geolocation.getCurrentPosition(function(position){
         $scope.$apply(function(){
                         $scope.position = position; 
-                        var geoLocation = WeatherService.findGeoLocationByLatLong($scope.position.coords.latitude,$scope.position.coords.longitude);
+                        var geoLocation =           WeatherService.findGeoLocationByLatLong($scope.position.coords.latitude,$scope.position.coords.longitude);
                         //$scope.geoLocation = geoLocation;
                         geoLocation.then(function (geoLocation){
                             $scope.geoLocation = geoLocation; 
+                            $scope.zipCode = geoLocation.citylocation;
                             var result = findForecastByLatLong(geoLocation);
                         });
                     });
@@ -25,18 +52,26 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
       });
       
   }
+  
 
     
     
     $scope.getWeather=function(){
+        
         $scope.startPinning = false;
-        var geoLocation = WeatherService.findGeoLocationByZip($scope.zipCode);
-        //$scope.geoLocation = geoLocation;
-            
-         geoLocation.then(function (geoLocation){
-            $scope.geoLocation = geoLocation; 
-            findForecastByLatLong(geoLocation);
-         });
+      
+        if($scope.geoLocation.status){
+            var geoLocation = WeatherService.findGeoLocationByZip($scope.zipCode);
+            geoLocation.then(function (geoLocation){
+                $scope.geoLocation = geoLocation; 
+                $scope.zipCode = geoLocation.citylocation;
+                findForecastByLatLong(geoLocation);
+            });
+        }
+        else{
+            findForecastByLatLong($scope.geoLocation);
+        }
+        
             
     }
     
@@ -46,11 +81,10 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
                weatherDetails
                 .then(function(WeatherResult){
                     $scope.WeatherResult = WeatherResult;
-                    $scope.headline = WeatherResult.CurrentWeather.weekSummary;
+                    $scope.headline = WeatherResult.CurrentWeatherArray[0].weekSummary;
                 });
             }
             else{
-                $log.error("Incorrect ZipCode");
                 $scope.geoLocation.citylocation = "Incorrect ZipCode";
                 $scope.geoLocation.status = true;
                 $scope.WeatherResult = {};
@@ -90,11 +124,158 @@ app.directive('handlePhoneSubmit', function () {
     return function (scope, element, attr) {
 
         var textFields = $(element).children('div').children('input[type=text]');
-        console.log(textFields);
+        
 
         $(element).submit(function() {
-            console.log('form was submitted');
+            //console.log('form was submitted');
             textFields.blur();
         });
     };
 });
+
+app.directive('ngAutocomplete', function() {
+    return {
+      require: 'ngModel',
+      scope: {
+        ngModel: '=',
+        options: '=?',
+        details: '=?',
+        location : '='
+      },
+      controller : 'WeatherController',
+
+      link: function(scope, element, attrs, controller) {
+
+        //options for autocomplete
+        var opts
+        var watchEnter = false
+        //convert options provided to opts
+        var initOpts = function() {
+
+          opts = {}
+          if (scope.options) {
+
+            if (scope.options.watchEnter !== true) {
+              watchEnter = false
+            } else {
+              watchEnter = true
+            }
+
+            if (scope.options.types) {
+              opts.types = []
+              opts.types.push(scope.options.types)
+              scope.gPlace.setTypes(opts.types)
+            } else {
+              scope.gPlace.setTypes([])
+            }
+
+            if (scope.options.bounds) {
+              opts.bounds = scope.options.bounds
+              scope.gPlace.setBounds(opts.bounds)
+            } else {
+              scope.gPlace.setBounds(null)
+            }
+
+            if (scope.options.country) {
+              opts.componentRestrictions = {
+                country: scope.options.country
+              }
+              scope.gPlace.setComponentRestrictions(opts.componentRestrictions)
+            } else {
+              scope.gPlace.setComponentRestrictions(null)
+            }
+          }
+        }
+
+        if (scope.gPlace == undefined) {
+          scope.gPlace = new google.maps.places.Autocomplete(element[0], {});
+        }
+        google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
+          var result = scope.gPlace.getPlace();
+          if (result !== undefined) {
+            if (result.address_components !== undefined) {
+
+              scope.$apply(function() {
+
+                scope.details = result;
+                console.log(scope.geoLocation.status);
+                scope.location= {status : true,
+                                     latitude : result.geometry.location.k,
+                                     longitude : result.geometry.location.B,
+                                     citylocation :result.geometry.formatted_address
+                                    };
+                  
+                console.log(result);
+                console.log(scope.location.status);
+                controller.$setViewValue(element.val());
+              });
+            }
+            else {
+              if (watchEnter) {
+                getPlace(result)
+              }
+            }
+          }
+        })
+
+        //function to get retrieve the autocompletes first result using the AutocompleteService 
+        var getPlace = function(result) {
+          var autocompleteService = new google.maps.places.AutocompleteService();
+          if (result.name.length > 0){
+            autocompleteService.getPlacePredictions(
+              {
+                input: result.name,
+                offset: result.name.length
+              },
+              function listentoresult(list, status) {
+                if(list == null || list.length == 0) {
+
+                  scope.$apply(function() {
+                    scope.details = null;
+                  });
+
+                } else {
+                  var placesService = new google.maps.places.PlacesService(element[0]);
+                  placesService.getDetails(
+                    {'reference': list[0].reference},
+                    function detailsresult(detailsResult, placesServiceStatus) {
+
+                      if (placesServiceStatus == google.maps.GeocoderStatus.OK) {
+                        scope.$apply(function() {
+
+                          controller.$setViewValue(detailsResult.formatted_address);
+                          element.val(detailsResult.formatted_address);
+
+                          scope.details = detailsResult;
+
+                          //on focusout the value reverts, need to set it again.
+                          var watchFocusOut = element.on('focusout', function(event) {
+                            element.val(detailsResult.formatted_address);
+                            element.unbind('focusout')
+                          })
+
+                        });
+                      }
+                    }
+                  );
+                }
+              });
+          }
+        }
+
+        controller.$render = function () {
+          var location = controller.$viewValue;
+          element.val(location);
+        };
+
+        //watch options provided to directive
+        scope.watchOptions = function () {
+          return scope.options
+        };
+        scope.$watch(scope.watchOptions, function () {
+          initOpts()
+        }, true);
+
+      }
+    };
+  });

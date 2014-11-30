@@ -51,11 +51,12 @@ function findWeatherByGeo(latitude, longitude){
     
 function handleWeatherCallSuccess(response){
     var result1 = response;
-    $log.info(result1);
+    //$log.info(result1);
     var d = new Date();
     WeatherResult.Status = true;
-    WeatherResult.CurrentDay = weekday[d.getDay()];
-    WeatherResult.CurrentWeather = 
+    var currentWeatherArray = new Array(1);
+    var currentWeather 
+     = 
                         {
                             currentTemperature : Math.round(result1.data.currently.temperature),
                             icon : result1.data.currently.icon,
@@ -63,7 +64,8 @@ function handleWeatherCallSuccess(response){
                             summary : result1.data.currently.summary,
                             weekSummary : result1.data.daily.summary
                         };
-    
+    currentWeatherArray[0] = currentWeather;
+    WeatherResult.CurrentWeatherArray = currentWeatherArray;
     var dailyWeatherArray = new Array(7);
 
     for(i=0;i<dailyWeatherArray.length;i++){

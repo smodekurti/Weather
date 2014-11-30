@@ -1,21 +1,135 @@
-.animate-enter, 
-.animate-leave { 
-    -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    position: relative;
-    display: block;
-} 
- 
-.animate-leave.animate-leave-active,
-.animate-enter {
-    -webkit-transform: rotateX(90deg) rotateZ(90deg);
-    -moz-transform: rotateX(90deg) rotateZ(90deg);
-    -ms-transform: rotateX(90deg) rotateZ(90deg);
-    -o-transform: rotateX(90deg) rotateZ(90deg);
-    transform: rotateX(90deg) rotateZ(90deg);
-    opacity: 0;
-    height: 0px;
-}
+     .form-control{
+            border-color: green;
+            font-size: 10;
+            color: #186fd3;
+            text-align: center
+            
+        }
+
+        .panel{
+            width: 99%;
+            padding-left: 10px;
+            padding: 7px 7px;
+            overflow: auto;
+            min-height: 40px;
+            max-height: 450px;;
+            border-radius: .25em;
+            border : 2;
+        }
+        .bootcards-summary .panel-body    
+        .bootcards-summary-item {
+            background: rgba(85, 201, 0, 0.38);
+            display: block;
+            border-radius: .5em;
+            padding:  .002em .002em;
+            text-align: center;
+            position: relative;
+            height: 150px;
+            border: 2;
+            ;
+
+
+        }
+        
+        .bootcards-summary-heading {
+            background: rgb(122, 2, 224);
+            display: block;
+            border-radius: .25em;
+            padding:  .001em .001em;
+            text-align: center;
+            position: relative;
+            height: 55px;
+            border: 2;
+            color : white;
+
+
+        }
+        
+        .bootcards-summary-first-item {
+            background: rgba(255, 102, 6, 0.83);
+            display: block;
+            border-radius: .5em;
+            padding:  .002em .002em;
+            text-align: center;
+            position: relative;
+            height: 135px;
+            border: 2;
+            color: white;
+            ;
+
+
+        }
+        
+        .form-control-wrapper .form-control.focus:not(textarea):not(select), .form-control-wrapper .form-                       control:focus:not(textarea):not(select), .form-control-wrapper .form-control:not(textarea):not(select), .form-control.focus:not(textarea):not(select), .form-control:focus:not(textarea):not(select), .form-control:not(textarea):not(select), fieldset[disabled] .form-control.focus:not(textarea):not(select), fieldset[disabled] .form-control:focus:not(textarea):not(select), fieldset[disabled] .form-control:not(textarea):not(select) {
+        height: 48px;
+        }
+
+       
+        @media all and (max-width: 792px) {
+            h4 {
+                font-size: 12px;;
+            }
+            h3 {
+            font-size: 16px;;
+            }
+            h2 {
+            font-size: 18px;;
+            }
+        }
+        
+         @media all and (min-width: 793px) {
+            h4 {
+                font-size: 14px;;
+            }
+            h3 {
+            font-size: 14px;;
+            }
+            h2 {
+            font-size: 16px;;
+            }
+        }
+
+        .panel .panel-heading{
+         background: rgba(98, 201, 116, 0.38);
+         display: block;
+        }
+            
+        .wrapper {
+          min-height: 40px; /* overrides height and max-height */
+          height: 60px;
+          max-height: 60px;
+        }
+        
+        .alert .alert-danger, .alert-info, .alert-success, .alert-warning {
+            background: rgba(98, 201, 116, 0.38);
+            color: #0A0909  ;
+            border-radius: .75em;
+        }
+            
+        .bootcards-summary .panel-body {
+                padding: 1px 15px;
+        }
+        
+        /* enable absolute positioning */
+
+        .inner-addon { 
+            position: relative; 
+        }
+
+        /* style icon */
+        .inner-addon .glyphicon {
+          position: absolute;
+          padding: 10px;
+          pointer-events: none;
+        }
+
+        /* align icon */
+        .left-addon .glyphicon  { left:  0px;}
+        .right-addon .glyphicon { right: 0px;}
+
+        /* add padding  */
+        .left-addon input  { padding-left:  30px; }
+        .right-addon input { padding-right: 30px; }
+        .glyphicon.glyphicon-remove {
+            font-size: 25px;
+        }
