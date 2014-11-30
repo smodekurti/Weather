@@ -2,30 +2,30 @@ var app =angular.module('weatherApp',['angular-skycons','mgcrea.ngStrap','ngAnim
 
 app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherService',function($scope,$log,$http,$filter,WeatherService){
     
-   
-   
+  
     
     $scope.getWeather=function(){
+        
         var geoLocation = WeatherService.findGeoLocation($scope.zipCode);
         $scope.geoLocation = geoLocation;
             
          geoLocation.then(function (geoLocation){
             $scope.geoLocation = geoLocation 
-            if(geoLocation.status === "Success"){
+            if(geoLocation.status){
                var weatherDetails = WeatherService.findWeatherByGeo(geoLocation.latitude,geoLocation.longitude);    
                weatherDetails
                 .then(function(WeatherResult){
-                     $scope.WeatherResult = '';
                     $scope.WeatherResult = WeatherResult;
-                    $scope.headline = '';
                     $scope.headline = WeatherResult.CurrentWeather.weekSummary;
                 });
             }
             else{
                 $log.error("Incorrect ZipCode");
-                $scope.geoLocation='';
-                $scope.headline = "Incorrect ZipCode";
+                $scope.geoLocation.citylocation = "Incorrect ZipCode";
+                $scope.geoLocation.status = true;
                 $scope.WeatherResult = {};
+                $sscope.WeatherResult.status = false;
+                
             }
          });
             

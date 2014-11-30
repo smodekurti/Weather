@@ -43,7 +43,7 @@ function handleWeatherCallSuccess(response){
     var result1 = response;
     $log.info(result1);
     var d = new Date();
-    WeatherResult.Status = "Success";
+    WeatherResult.Status = true;
     WeatherResult.CurrentDay = weekday[d.getDay()];
     WeatherResult.CurrentWeather = 
                         {
@@ -92,7 +92,7 @@ function handleWeatherCallError(response){
         ) {
             return( $q.reject( "An unknown error occurred." ) );
         }
-    WeatherResult.Status = "Fail";
+    WeatherResult.Status = false;
     WeatherResult.CurrentDay = '';
     WeatherResult.CurrentWeather = {};
     WeatherResult.DailyWeatherArray = {};
@@ -110,7 +110,7 @@ function handleGeoError(response){
             return( $q.reject( "An unknown error occurred." ) );
         }
     
-      geoLocation.status = "Fail";
+      geoLocation.status = false;
       geoLocation.latitude = '';
       geoLocation.longitude = '';
       geoLocation.citylocation='';
@@ -122,13 +122,13 @@ function handleGeoSuccess(response){
    var result = response.data;
 
     if(result.results.length >0){
-        geoLocation.status = "Success";
+        geoLocation.status = true;
         geoLocation.latitude = result.results[0].geometry.location.lat;
         geoLocation.longitude = result.results[0].geometry.location.lng;
         geoLocation.citylocation=result.results[0].formatted_address;
     }
     else{
-      geoLocation.status = "Fail";
+      geoLocation.status = false;
       geoLocation.latitude = '';
       geoLocation.longitude = '';
       geoLocation.citylocation='';   

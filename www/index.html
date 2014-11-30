@@ -117,14 +117,16 @@
                       <input type="text" class="form-control" ng-model="zipCode" focus="true" placeholder="Zip Code or City"  handlePhoneSubmit> 
                 </div>
                <br/> 
-               <div class="panel-heading heading animated fadeInLeftBig" ng-show='geoLocation.status' ng-click="on=!on">
+               <div class="panel-heading heading animated " ng-show='geoLocation.status' ng-click="on=!on">
                     <h2 class="panel-title text-center " >{{geoLocation.citylocation}}</h2>
                 </div>
+             
+               
             </form>
         </div>
        </div>
        <div class="col-lg-12" >
-          <div class="panel panel-default bootcards-summary" ng-show='geoLocation.status' ng-cloak>
+          <div class="panel panel-default bootcards-summary" ng-show='WeatherResult.Status' ng-cloak>
                 <div class="panel-body bootcards-cards wrapper" ng-cloak >
                     
                     
