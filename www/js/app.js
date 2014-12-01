@@ -111,7 +111,7 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
         else{
             findForecastByLatLong($scope.geoLocation);
         }
-        },200);
+        },500);
             
 
     }
