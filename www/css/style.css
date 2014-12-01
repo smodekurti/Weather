@@ -133,8 +133,35 @@
         .glyphicon.glyphicon-remove {
             font-size: 25px;
         }
-
-        .img-responsive{
-            display:inline;   
+.img-responsive {
+/* display: block; */
+             margin: 0 auto;
+            }
+        
+         .pac-matched {
+            
+            color : black;
+	        font-size: 14px;
+	       
+	        font-family:  Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-weight: 200;
+         }
+        .pac-item {
+            
+            color : black;
+	        font-size: 14px;
+	       
+	        font-family:  Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-weight: 200;
         }
-
+        
+        .pac-item-query{
+          
+          color : black;
+	       font-size: 14px;
+	   
+	       font-family:  Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-weight: 200;
+            
+        }
+        

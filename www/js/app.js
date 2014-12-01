@@ -4,20 +4,20 @@ app.run([
   '$templateCache',
   function ($templateCache) {
     $templateCache.put('splash/index.html',
-      '<section class="splash" ng-class="{\'splash-open\': animate}" ng-style="{\'z-index\': 1000, display: \'block\'}" ng-click="close($event)">' +
+      '<section class="splash flip" ng-class="{\'splash-open\': animate }" ng-style="{\'z-index\': 1000, display: \'auto\'}" ng-click="close($event)">' +
       '  <div class="splash-inner" ng-transclude></div>' +
       '</section>'
     );
       
-    $templateCache.put('splash/content.html',
+   $templateCache.put('splash/content.html',
       '  <div class="splash-content text-center">' +
       '     <div class="container">' +
       '         <div class="row">' +
       '            <div class="col-xs-12 col-sm-12 col-lg-12">' +
       '                 <div><h1 ng-bind="title"></h1></div>' +
       '                 <div style="text-align: center; display:auto;"><img src = "logo.png" class="img-responsive" height="142" width="142"></img></div>' +                
-      '                 <div><p class="lead" ng-bind="message"></p></div>' +    
-      '                 <img src = "powered-by-google-on-non-white2.png"></img>' +
+      '                 <br/><div><p class="lead" ng-bind="message"></p></div>' +    
+      '                 <div><img src = "powered-by-google-on-non-white2.png"></img></div>' +
       '             </div>' +
       '         </div>'+
       '     </div>' +
@@ -28,7 +28,7 @@ app.run([
 
 app.controller('MainCtrl', ['$splash', '$timeout','$modalStack',function ($splash,$timeout,$modalStack) {
   $timeout(function(){
-      console.log("Timeout Invoked");
+      //console.log("Timeout Invoked");
       $modalStack. dismissAll();
   }, 5000);
   this.openSplash = function () {
@@ -70,6 +70,7 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
   
   if (navigator.geolocation) {
       $scope.startPinning = true;
+      
       navigator.geolocation.getCurrentPosition(function(position){
         $scope.$apply(function(){
                         $scope.position = position; 
@@ -95,7 +96,8 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
     
     
     $scope.getWeather=function(){
-        
+        $timeout(function(){
+        //$log.warn($scope.zipCode);
         $scope.startPinning = false;
       
         if($scope.geoLocation.status){
@@ -109,9 +111,11 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
         else{
             findForecastByLatLong($scope.geoLocation);
         }
-        
+        },200);
             
+
     }
+                 
     
     function findForecastByLatLong(geoLocation){
         if(geoLocation.status){
@@ -258,16 +262,18 @@ app.directive('ngAutocomplete', function() {
               scope.$apply(function() {
 
                 scope.details = result;
-                console.log(scope.geoLocation.status);
+                //console.log(scope.geoLocation.status);
                 scope.location= {status : true,
                                      latitude : result.geometry.location.k,
                                      longitude : result.geometry.location.B,
                                      citylocation :result.geometry.formatted_address
                                     };
+                
+                //console.info("NgModel : " + controller.$viewValue);
+              
                   
-                console.log(result);
-                console.log(scope.location.status);
                 controller.$setViewValue(element.val());
+                   //console.info("NgModel : " + controller.$viewValue);
               });
             }
             else {
