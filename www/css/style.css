@@ -133,8 +133,9 @@
         .glyphicon.glyphicon-remove {
             font-size: 25px;
         }
-.img-responsive {
-/* display: block; */
+            
+        .img-responsive {
+            /* display: block; */
              margin: 0 auto;
             }
         
