@@ -18,6 +18,7 @@ app.run([
       '                 <div style="text-align: center; display:auto;"><img src = "logo.png" class="img-responsive" height="142" width="142"></img></div>' +                
       '                 <br/><div><p class="lead" ng-bind="message"></p></div>' +    
       '                 <div><img src = "powered-by-google-on-non-white2.png"></img></div>' +
+      '                 <div><h4>Powwered by Forecast.io</h4></div>' +
       '             </div>' +
       '         </div>'+
       '     </div>' +
