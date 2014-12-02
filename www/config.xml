@@ -7,10 +7,10 @@
         id        = "com.phonegap.globalweather"
         version   = "1.0.0">
 
-    <name>Global Weather</name>
+    <name>Quick Weather</name>
 
     <description>
-        Global Weather Application
+        Quick Weather Application
     </description>
 
     <author href="http://www.vasusworld.com" email="support@phonegap.com">
