@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="weatherApp">
 <head>
-`   <meta name="viewport" content="width=device-width, initial-scale=1">
+`   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" >
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/bootcards.css">
@@ -36,17 +36,18 @@
     
 </head>
 
-<body style="overflow:hidden;  " ng-controller="MainCtrl  as main">
+<body style="overflow:hidden; background-image:url('frosted_bg.jpg'); " ng-controller="MainCtrl  as main">
 
    <div class="container-fluid" ng-init="main.openSplash()">       
    <div class="row" ng-controller="WeatherController">
        <div class="col-lg-12">
-        <div class=" panel panel-default bootcards-summary">    
+        <div class=" panel panel-default bootcards-summary" >    
 
-           <form role="form" ng-submit="getWeather()" handle-phone-submit handlePhoneSubmit>
+           <form role="form" ng-submit="getWeather(false)" handle-phone-submit handlePhoneSubmit>
                 <div class="input">
                       <!--input type="text" class="form-control" ng-model="zipCode"  placeholder="Zip Code or City"  --> 
                       <input type="text" ng-blur="getWeather()"  id="Autocomplete" class="form-control" ng-model="zipCode" placeholder="Zip Code or City"  ng-autocomplete options="options2" location = "geoLocation" />
+                    <span id="searchclear" class="glyphicon glyphicon-remove-circle searchclear" ng-click="getWeather(true)"></span>
                      
                 </div>
                <br/> 
@@ -59,17 +60,18 @@
         </div>
        </div>
        <div class="col-lg-12" >
-          <div class="panel panel-default bootcards-summary" style="background-image:url('frosted_bg.jpg');" ng-show='WeatherResult.Status' ng-cloak>
+          <div class="panel panel-default bootcards-summary "  ng-show='WeatherResult.Status' ng-cloak>
                 <div class="panel-body bootcards-cards wrapper" ng-cloak  >
-                    
+                     
                     
                   
                     <div class="row" ng-cloak>
-                        <div class="col-lg-12 col-md-12 col-xs-12" ng-repeat = "currentWeather in WeatherResult.CurrentWeatherArray" ng-cloak>
+                        <div class="col-lg-12 col-md-12 col-xs-12 " ng-repeat = "currentWeather in WeatherResult.CurrentWeatherArray" ng-cloak>
                             <div class="bootcards-summary-heading animated fadeInRightBig" ng-click="on=!on" ng-cloak>
                                 {{ currentWeather.weekSummary }}
                             </div>
                             <br/>
+                           
                             <div class="bootcards-summary-first-item animated fadeInLeftBig" ng-cloak>
                                 <h3>Current</h2> 
                                 <skycon icon="currentWeather.icon"  size="currentWeather.iconSize"></skycon>
@@ -80,7 +82,7 @@
                     </div>
                     <div class="row" ng-cloak>
                         
-                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6" ng-repeat="dailyweather in WeatherResult.DailyWeatherArray" ng-cloak>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-repeat="dailyweather in WeatherResult.DailyWeatherArray" ng-cloak>
                             <div class="bootcards-summary-item animated fadeInRightBig" ng-cloak>
                                 <h3>{{ dailyweather.DayName }}</h2> 
                                 <skycon icon="dailyweather.icon"  size="dailyweather.iconSize"></skycon>

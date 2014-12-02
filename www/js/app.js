@@ -97,25 +97,31 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
   }
   
 
+   
     
-    
-    $scope.getWeather=function(){
-        $timeout(function(){
-        //$log.warn($scope.zipCode);
-        $scope.startPinning = false;
-      
-        if($scope.geoLocation.status){
-            var geoLocation = WeatherService.findGeoLocationByZip($scope.zipCode);
-            geoLocation.then(function (geoLocation){
-                $scope.geoLocation = geoLocation; 
-                $scope.zipCode = geoLocation.citylocation;
-                findForecastByLatLong(geoLocation);
-            });
+    $scope.getWeather=function(clearZipCode){
+        if($scope.zipCode.length >0){
+            if(clearZipCode){
+                $scope.zipCode='';
+            }
+            $timeout(function(){
+            //$log.warn($scope.zipCode);
+            $scope.startPinning = false;
+
+            if($scope.geoLocation.status){
+                var geoLocation = WeatherService.findGeoLocationByZip($scope.zipCode);
+                geoLocation.then(function (geoLocation){
+                    $scope.geoLocation = geoLocation; 
+                    $scope.zipCode = geoLocation.citylocation;
+                    findForecastByLatLong(geoLocation);
+                });
+            }
+            else{
+                findForecastByLatLong($scope.geoLocation);
+            }
+            
+            },500);
         }
-        else{
-            findForecastByLatLong($scope.geoLocation);
-        }
-        },500);
             
 
     }
