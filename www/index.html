@@ -65,7 +65,7 @@
                     
                   
                     <div class="row" ng-cloak>
-                        <div class="col-lg-12 col-md-12 col-xs-12" ng-repeat = "currentWeather in WeatherResult.CurrentWeatherArray">
+                        <div class="col-lg-12 col-md-12 col-xs-12" ng-repeat = "currentWeather in WeatherResult.CurrentWeatherArray" ng-cloak>
                             <div class="bootcards-summary-heading animated fadeInRightBig" ng-click="on=!on" ng-cloak>
                                 {{ currentWeather.weekSummary }}
                             </div>
