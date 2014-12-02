@@ -15,9 +15,11 @@
             max-height: 450px;;
             border-radius: .25em;
             border : 2;
+            background-image:url("frosted_bg.jpg");
         }
         .bootcards-summary .panel-body    
         .bootcards-summary-item {
+            
             background: rgba(85, 201, 0, 0.38);
             display: block;
             border-radius: .5em;

@@ -18,6 +18,7 @@ app.run([
       '                 <div style="text-align: center; display:auto;"><img src = "logo.png" class="img-responsive" height="142" width="142"></img></div>' +                
       '                 <br/><div><p class="lead" ng-bind="message"></p></div>' +    
       '                 <div><img src = "powered-by-google-on-non-white2.png"></img></div>' +
+      '                 <div><h6>Version - v0.0.1-beta</h6></div>' +
       '             </div>' +
       '         </div>'+
       '     </div>' +
@@ -50,7 +51,8 @@ app.controller('WeatherController',['$scope','$log','$http','$filter','WeatherSe
 
     $scope.result2 = '';
     $scope.options2 = {
-      types: '(cities)'
+      types: '(cities)',
+      getPlaceOnBlur : false
     };    $scope.details2 = '';
     
     
@@ -329,6 +331,12 @@ app.directive('ngAutocomplete', function() {
           }
         }
 
+        if (scope.options.getPlaceOnBlur) {
+          element.bind('blur', function () {
+            getPlace({ name: controller.$viewValue });
+          });
+        }
+        
         controller.$render = function () {
           var location = controller.$viewValue;
           element.val(location);
